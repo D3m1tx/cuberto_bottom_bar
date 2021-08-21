@@ -19,22 +19,22 @@ class TabItem extends StatefulWidget {
   final bool selected;
 
   /// This callbackFunction is called when the Tab is clicked
-  final Function(Key uniqueKey) callbackFunction;
+  final Function(Key? uniqueKey) callbackFunction;
 
   /// This color is used fot the text inside the Tab
-  final Color textColor;
+  final Color? textColor;
 
   /// This color is used as the icon color of the Tab
-  final Color iconColor;
+  final Color? iconColor;
 
   /// This color is used as the Tab background color
-  final Color tabColor;
+  final Color? tabColor;
 
   /// This gradient is used a the background gradient color of the Tab
-  final Gradient backGroundGradientColor;
+  final Gradient? backGroundGradientColor;
 
   /// This radius is used the borderRadius of the Tab
-  final BorderRadius borderRadius;
+  final BorderRadius? borderRadius;
 
   /// This value is used to YAlignment of the icon of the Tab
   final double iconYAlign = ICON_ON;
@@ -49,20 +49,20 @@ class TabItem extends StatefulWidget {
   final GlobalKey stickyKey = GlobalKey();
 
   /// This style is used to set the tabStyle
-  final CubertoTabStyle tabStyle;
+  final CubertoTabStyle? tabStyle;
 
   TabItem(
-      {@required this.selected,
-      @required this.iconData,
-      @required this.title,
-      @required this.callbackFunction,
-      @required this.textColor,
-      @required this.iconColor,
-      @required this.tabColor,
+      {required this.selected,
+      required this.iconData,
+      required this.title,
+      required this.callbackFunction,
+      required this.textColor,
+      required this.iconColor,
+      required this.tabColor,
       this.borderRadius,
       this.backGroundGradientColor,
       this.tabStyle,
-      Key key})
+      Key? key})
       : super(key: key);
 
 
@@ -73,13 +73,13 @@ class TabItem extends StatefulWidget {
 class _TabItemState extends State<TabItem> {
   @override
   Widget build(BuildContext context) {
-    Gradient backGradient = LinearGradient(
+    Gradient? backGradient = LinearGradient(
         colors: [Colors.transparent, Colors.transparent], stops: [0.0, 0.7]);
-    Color iconColor = widget.iconColor;
+    Color? iconColor = widget.iconColor;
     if (widget.tabStyle == CubertoTabStyle.STYLE_NORMAL) {
       backGradient = widget.selected
           ? LinearGradient(
-              colors: [widget.iconColor, widget.iconColor], stops: [0.0, 0.7])
+              colors: [widget.iconColor!, widget.iconColor!], stops: [0.0, 0.7])
           : LinearGradient(
               colors: [Colors.transparent, Colors.transparent],
               stops: [0.0, 0.7]);
@@ -87,10 +87,10 @@ class _TabItemState extends State<TabItem> {
     } else {
       backGradient = widget.selected
           ? widget.backGroundGradientColor != null
-              ? widget.backGroundGradientColor
+              ? widget.backGroundGradientColor!
               : LinearGradient(colors: [
-                  widget.tabColor.withOpacity(0.1),
-                  widget.tabColor.withOpacity(0.1)
+                  widget.tabColor!.withOpacity(0.1),
+                  widget.tabColor!.withOpacity(0.1)
                 ], stops: [
                   0.0,
                   0.7

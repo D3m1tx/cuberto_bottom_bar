@@ -1,5 +1,7 @@
 library cuberto_bottom_bar;
 
+import 'dart:async';
+
 import 'package:cuberto_bottom_bar/internal/tab_item.dart';
 
 import 'package:flutter/material.dart';
@@ -8,48 +10,48 @@ const int kAnimationDuration = 300;
 
 class CubertoBottomBar extends StatefulWidget {
   /// The callback that will be executed each time the tab is changed
-  final Function(int position, String title, Color tabColor)
+  final Function(int position, String title, Color? tabColor)
       onTabChangedListener;
 
   /// This color is used to show that the tab is inactive i.e not selected
-  final Color inactiveIconColor;
+  final Color? inactiveIconColor;
 
   /// This color is used to specify the tab color
-  final Color tabColor;
+  final Color? tabColor;
 
   /// This color is used to specify the color of text in the tab
-  final Color textColor;
+  final Color? textColor;
 
   /// This color is used to set up the background color of the bottom bar
-  final Color barBackgroundColor;
+  final Color? barBackgroundColor;
 
   /// List of [TabData] to set up the bottom nav bar
   final List<TabData> tabs;
 
   /// [BorderRadius] to add border to the bottom bar.
-  final BorderRadius barBorderRadius;
+  final BorderRadius? barBorderRadius;
 
   /// This int value is used to programmatically change the index of the tabs
-  final int selectedTab;
+  final int? selectedTab;
 
   /// To add a navgation drawer of [CubertoDrawer] type
-  final CubertoDrawer drawer;
+  final CubertoDrawer? drawer;
 
   /// [CubertoTabStyle] to be defined as required, by default it will be [CubertoTabStyle.STYLE_NORMAL]
-  final CubertoTabStyle tabStyle;
+  final CubertoTabStyle? tabStyle;
 
   /// The [Key] of the [CubertoBottomBar]
-  final Key key;
+  final Key? key;
 
   /// The inner padding of the [CubertoBottomBar]
-  final EdgeInsets padding;
+  final EdgeInsets? padding;
 
   /// The list of shadows of the [CubertoBottomBar]
-  final List<BoxShadow> barShadow;
+  final List<BoxShadow>? barShadow;
 
   CubertoBottomBar({
-    @required this.tabs,
-    @required this.onTabChangedListener,
+    required this.tabs,
+    required this.onTabChangedListener,
     this.key,
     this.selectedTab = 0,
     this.inactiveIconColor,
@@ -74,15 +76,15 @@ class CubertoBottomBarState extends State<CubertoBottomBar> {
   IconData activeIcon = Icons.search;
   int currentSelected = 0;
   double _circleAlignX = 0;
-  Color circleColor;
-  Color activeIconColor;
-  Color inactiveIconColor;
-  Color barBackgroundColor;
-  Color textColor;
-  Color tabColor;
-  CubertoDrawerStyle drawerStyle;
-  CubertoTabStyle tabStyle;
-  Icon drawerIcon;
+  Color? circleColor;
+  Color? activeIconColor;
+  Color? inactiveIconColor;
+  Color? barBackgroundColor;
+  Color? textColor;
+  Color? tabColor;
+  CubertoDrawerStyle? drawerStyle;
+  CubertoTabStyle? tabStyle;
+  Icon? drawerIcon;
 
   @override
   void didChangeDependencies() {
@@ -114,13 +116,13 @@ class CubertoBottomBarState extends State<CubertoBottomBar> {
         color: inactiveIconColor,
       );
     } else {
-      if (widget.drawer.style != null)
-        drawerStyle = widget.drawer.style;
+      if (widget.drawer!.style != null)
+        drawerStyle = widget.drawer!.style;
       else
         drawerStyle = CubertoDrawerStyle.NO_DRAWER;
 
-      if (widget.drawer.icon != null)
-        drawerIcon = widget.drawer.icon;
+      if (widget.drawer!.icon != null)
+        drawerIcon = widget.drawer!.icon;
       else
         drawerIcon = Icon(
           Icons.menu,
@@ -135,7 +137,7 @@ class CubertoBottomBarState extends State<CubertoBottomBar> {
     _setSelected(widget.tabs[widget.selectedTab ?? 0].key);
   }
 
-  _setSelected(Key key) {
+  _setSelected(Key? key) {
     int selected = widget.tabs.indexWhere((tabData) => tabData.key.toString() == key.toString());
     if (mounted) {
       setState(() {
@@ -149,7 +151,7 @@ class CubertoBottomBarState extends State<CubertoBottomBar> {
   @override
   Widget build(BuildContext context) {
     // method to make a particular tab selected
-    _setSelected(widget.tabs[widget.selectedTab].key);
+    _setSelected(widget.tabs[widget.selectedTab!].key);
     void _handleDrawerButton() {
       Scaffold.of(context).openDrawer();
     }
@@ -163,8 +165,8 @@ class CubertoBottomBarState extends State<CubertoBottomBar> {
     // set action as drawerStyle
     if (drawerStyle != CubertoDrawerStyle.NO_DRAWER) {
       actions = IconButton(
-        icon: drawerIcon,
-        onPressed: widget.drawer.style == CubertoDrawerStyle.END_DRAWER
+        icon: drawerIcon!,
+        onPressed: widget.drawer!.style == CubertoDrawerStyle.END_DRAWER
             ? _handleDrawerButtonEnd
             : _handleDrawerButton,
         tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
@@ -203,7 +205,7 @@ class CubertoBottomBarState extends State<CubertoBottomBar> {
 
   rowTabs(
     List<TabData> tabs,
-    Function(int position, String title, Color tabColor) onTabChangedListener,
+    Function(int position, String title, Color? tabColor) onTabChangedListener,
   ) {
     return SafeArea(
       child: Row(
@@ -237,9 +239,9 @@ class CubertoBottomBarState extends State<CubertoBottomBar> {
   }
 
   setUpTabs(
-    CubertoDrawerStyle drawerStyle,
+    CubertoDrawerStyle? drawerStyle,
     List<TabData> tabs,
-    Function(int position, String title, Color tabColor) onTabChangedListener,
+    Function(int position, String title, Color? tabColor) onTabChangedListener,
     Widget actions,
   ) {
     Widget widget;
@@ -272,7 +274,7 @@ class CubertoBottomBarState extends State<CubertoBottomBar> {
       setState(() {
         activeIcon = nextIcon;
       });
-    }).then((_) {
+    }).then((dynamic) {
       Future.delayed(Duration(milliseconds: (kAnimationDuration ~/ 5 * 3)), () {
         setState(() {});
       });
@@ -288,24 +290,24 @@ class TabData {
   String title;
 
   /// This onclick function to be called when clicked on Tab
-  Function onclick;
+  Function? onclick;
 
   /// This color is set as the background color of the Tab
-  Color tabColor;
+  Color? tabColor;
 
   /// This gradient color is used a the background gradient of the Tab
-  Gradient tabGradient;
+  Gradient? tabGradient;
 
   /// This borderRadius is used as the the borderRadius of the Tab
-  BorderRadius borderRadius;
+  BorderRadius? borderRadius;
 
   /// This key is used as unique value to the Tab (if not set default UniqueKey will be added to the Tab)
-  Key key;
+  Key? key;
 
 
   TabData(
-      {@required this.iconData,
-      @required this.title,
+      {required this.iconData,
+      required this.title,
       this.onclick,
       this.tabColor,
       this.borderRadius,
@@ -318,10 +320,10 @@ class TabData {
 class CubertoDrawer {
 
   /// This icon will be used as the drawer icon
-  final Icon icon;
+  final Icon? icon;
 
   /// This style will be used to decide where the drawer icon will be placed
-  final CubertoDrawerStyle style;
+  final CubertoDrawerStyle? style;
 
   const CubertoDrawer({this.icon, this.style});
 }
