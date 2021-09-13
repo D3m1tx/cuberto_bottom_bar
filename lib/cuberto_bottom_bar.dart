@@ -22,6 +22,9 @@ class CubertoBottomBar extends StatefulWidget {
   /// This color is used to specify the color of text in the tab
   final Color? textColor;
 
+  /// Tab text size
+  final double? textSize;
+
   /// This color is used to set up the background color of the bottom bar
   final Color? barBackgroundColor;
 
@@ -56,6 +59,7 @@ class CubertoBottomBar extends StatefulWidget {
     this.selectedTab = 0,
     this.inactiveIconColor,
     this.textColor,
+    this.textSize,
     this.tabColor,
     this.barBackgroundColor,
     this.barBorderRadius,
@@ -81,6 +85,7 @@ class CubertoBottomBarState extends State<CubertoBottomBar> {
   Color? inactiveIconColor;
   Color? barBackgroundColor;
   Color? textColor;
+  double? textSize;
   Color? tabColor;
   CubertoDrawerStyle? drawerStyle;
   CubertoTabStyle? tabStyle;
@@ -96,6 +101,7 @@ class CubertoBottomBarState extends State<CubertoBottomBar> {
             : Colors.white
         : widget.barBackgroundColor;
     textColor = (widget.textColor == null) ? Colors.white : widget.textColor;
+    textSize = (widget.textSize == null) ? 12 : widget.textSize;
     inactiveIconColor = (widget.inactiveIconColor == null)
         ? (Theme.of(context).brightness == Brightness.dark)
             ? Colors.white
@@ -222,6 +228,7 @@ class CubertoBottomBarState extends State<CubertoBottomBar> {
                   title: t.title,
                   iconColor: inactiveIconColor,
                   textColor: textColor,
+                  fontSize: textSize,
                   backGroundGradientColor: t.tabGradient,
                   tabColor: t.tabColor == null ? inactiveIconColor : t.tabColor,
                   borderRadius: t.borderRadius,
