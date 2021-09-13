@@ -27,6 +27,8 @@ class TabItem extends StatefulWidget {
   /// This color is used as the icon color of the Tab
   final Color? iconColor;
 
+  final double? fontSize;
+
   /// This color is used as the Tab background color
   final Color? tabColor;
 
@@ -59,12 +61,12 @@ class TabItem extends StatefulWidget {
       required this.textColor,
       required this.iconColor,
       required this.tabColor,
+        this.fontSize = 12,
       this.borderRadius,
       this.backGroundGradientColor,
       this.tabStyle,
       Key? key})
       : super(key: key);
-
 
   @override
   _TabItemState createState() => _TabItemState();
@@ -73,31 +75,21 @@ class TabItem extends StatefulWidget {
 class _TabItemState extends State<TabItem> {
   @override
   Widget build(BuildContext context) {
-    Gradient? backGradient = LinearGradient(
-        colors: [Colors.transparent, Colors.transparent], stops: [0.0, 0.7]);
+    Gradient? backGradient = LinearGradient(colors: [Colors.transparent, Colors.transparent], stops: [0.0, 0.7]);
     Color? iconColor = widget.iconColor;
+    double fontSize = widget.fontSize ?? 12;
     if (widget.tabStyle == CubertoTabStyle.STYLE_NORMAL) {
       backGradient = widget.selected
-          ? LinearGradient(
-              colors: [widget.iconColor!, widget.iconColor!], stops: [0.0, 0.7])
-          : LinearGradient(
-              colors: [Colors.transparent, Colors.transparent],
-              stops: [0.0, 0.7]);
+          ? LinearGradient(colors: [widget.iconColor!, widget.iconColor!], stops: [0.0, 0.7])
+          : LinearGradient(colors: [Colors.transparent, Colors.transparent], stops: [0.0, 0.7]);
       iconColor = widget.selected ? widget.textColor : widget.iconColor;
     } else {
       backGradient = widget.selected
           ? widget.backGroundGradientColor != null
               ? widget.backGroundGradientColor!
-              : LinearGradient(colors: [
-                  widget.tabColor!.withOpacity(0.1),
-                  widget.tabColor!.withOpacity(0.1)
-                ], stops: [
-                  0.0,
-                  0.7
-                ])
-          : LinearGradient(
-              colors: [Colors.transparent, Colors.transparent],
-              stops: [0.0, 0.7]);
+              : LinearGradient(
+                  colors: [widget.tabColor!.withOpacity(0.1), widget.tabColor!.withOpacity(0.1)], stops: [0.0, 0.7])
+          : LinearGradient(colors: [Colors.transparent, Colors.transparent], stops: [0.0, 0.7]);
       iconColor = widget.selected ? widget.tabColor : widget.iconColor;
     }
 
@@ -106,9 +98,7 @@ class _TabItemState extends State<TabItem> {
         padding: EdgeInsets.fromLTRB(15.0, 7.0, 15.0, 7.0),
         duration: Duration(milliseconds: kAnimationDuration),
         decoration: BoxDecoration(
-            gradient: backGradient,
-            borderRadius:
-                widget.borderRadius ?? BorderRadius.all(Radius.circular(20.0))),
+            gradient: backGradient, borderRadius: widget.borderRadius ?? BorderRadius.all(Radius.circular(20.0))),
         child: AnimatedContainer(
           duration: Duration(milliseconds: kAnimationDuration),
           child: Row(
@@ -121,9 +111,7 @@ class _TabItemState extends State<TabItem> {
               SizedBox(width: 8.0),
               AnimatedContainer(
                 duration: Duration(milliseconds: kAnimationDuration),
-                padding: widget.selected
-                    ? EdgeInsets.only(left: 3.0, right: 3.0)
-                    : EdgeInsets.all(0.0),
+                padding: widget.selected ? EdgeInsets.only(left: 3.0, right: 3.0) : EdgeInsets.all(0.0),
                 child: Text(
                   widget.selected ? widget.title : "",
                   overflow: TextOverflow.clip,
@@ -132,6 +120,7 @@ class _TabItemState extends State<TabItem> {
                   style: TextStyle(
                     color: iconColor,
                     fontWeight: FontWeight.bold,
+                    fontSize: fontSize,
                   ),
                 ),
               )
